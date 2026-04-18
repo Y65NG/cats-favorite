@@ -1,0 +1,43 @@
+Original prompt: Im building a interactive web game for cats to play, so it has to be cartoon style with interactive elements. it needs to be a collection grid of a bunch of games cats would like, and also a scoring system to categorize your cat based on its performance (good, clever, stupid, etc.)
+
+- Initialized the React + TypeScript + Vite project scaffold in the repo root.
+- Installed Vitest, React Testing Library, jsdom, and html2canvas.
+- Wrote failing tests first for the scoring model, session reducer, and Chinese toybox home screen.
+- Implemented the game catalog, session reducer, scoring pipeline, canvas mini-game runtime, toybox grid UI, and collectible result card.
+- Verified the current code with `pnpm test`, `pnpm build`, and `pnpm lint`.
+- Started the local Vite dev server and exercised all four mini-games with Playwright against the live app.
+- Captured verification artifacts under `output/web-game` and `output/manual-play`, including a full result-page run.
+- Fixed a visual bug where snapshot element class names collided with their container class names and overlaid card text.
+- Current verification status: tests, lint, build, home-screen screenshot, and end-to-end browser flow all completed successfully.
+- Follow-up revision from browser comments:
+- Removed the extra touch-priority footer sentence from the toybox home screen.
+- Reworked movement distinctness so fish travel in layered swim lanes, feather follows a larger rhythmic arc, and bug became a fixed-burrow pop-up game.
+- Added regression coverage for the removed footer line and the bug game's fixed-burrow visibility model.
+- Follow-up polish:
+- Strengthened `羽毛追追` into a clearer pendulum-style left-right sweep instead of a looser drift pattern.
+- Increased `虫虫突袭` bug dwell windows so the pop-up targets stay on-screen a bit longer before retreating.
+- Re-verified with `pnpm test`, `pnpm lint`, `pnpm build`, plus fresh browser screenshots for home, feather, and bug states.
+- Continued polish: upgraded 小鱼乱游 into a lane-switching fish school with diagonal lane changes, and updated the tile snapshot and copy to match.
+- Copy and pacing update:
+- Shortened the homepage subtitle to a simpler one-line summary.
+- Switched round completion from short fixed timers to `hit-goal first + longer max time` so each game ends when enough targets are hit, with a 40-45s fallback cap.
+- Updated the in-game HUD and helper copy to show progress (`进度 x / goal`) plus the longer fallback time.
+- Re-verified with `pnpm test`, `pnpm lint`, `pnpm build`, and fresh manual screenshots for the shorter subtitle and laser hit-goal flow.
+- Per-game round pacing:
+- Split round goals by game instead of using one shared target: laser `14 / 32s`, fish `10 / 42s`, feather `16 / 36s`, bug `8 / 50s`.
+- Added per-game finish hints in the play surface footer so the player can see each mode's rhythm immediately.
+- Realigned the home-screen test expectations with the current homepage copy already present in the repo.
+- Re-verified with `pnpm test`, `pnpm lint`, `pnpm build`, plus a fresh browser capture of the bug round showing `进度 0 / 8` and `最多 50 秒`.
+- Audio polish:
+- Added lightweight synthesized Web Audio sound effects instead of shipping audio files, with distinct timbre profiles per game.
+- Wired sound cues for game start, hit, miss, and round completion.
+- Added an in-game sound toggle so players can mute/unmute without leaving the round.
+- Re-verified with `pnpm test`, `pnpm lint`, `pnpm build`, plus fresh browser captures of the in-game sound toggle states and no new runtime errors.
+- Audio tone refinement:
+- Softened the more electronic-sounding presets by changing feather to a sine-wave profile and bug to a lighter triangle-wave profile.
+- Lowered bug/feather hit and completion volumes and slightly adjusted durations so they feel more like toy feedback and less like UI beeps.
+- Re-verified with `pnpm test`, `pnpm lint`, and `pnpm build`.
+- Hit feedback visuals:
+- Added lightweight hit-feedback effects in the runtime layer so each game now has a distinct visual response on hit: warm pulse ring for laser, ripple rings for fish, soft feather particles, and burrow shake for bug.
+- Added regression coverage to ensure hit effects spawn and expire over time.
+- Re-verified with `pnpm test`, `pnpm lint`, `pnpm build`, plus fresh browser screenshots for laser and bug hit effects.
