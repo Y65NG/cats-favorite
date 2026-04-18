@@ -8,7 +8,7 @@ describe("App", () => {
 
     expect(screen.getByText("猫咪能力测试")).toBeInTheDocument()
     expect(screen.getByText("已完成 0 / 4")).toBeInTheDocument()
-    expect(screen.getByText("问小猫想先玩哪个")).toBeInTheDocument()
+    expect(screen.getByText("看小猫想先玩哪个")).toBeInTheDocument()
     expect(
       screen.getByRole("button", { name: "激光点点 开始游戏" }),
     ).toBeInTheDocument()

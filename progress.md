@@ -41,3 +41,9 @@ Original prompt: Im building a interactive web game for cats to play, so it has 
 - Added lightweight hit-feedback effects in the runtime layer so each game now has a distinct visual response on hit: warm pulse ring for laser, ripple rings for fish, soft feather particles, and burrow shake for bug.
 - Added regression coverage to ensure hit effects spawn and expire over time.
 - Re-verified with `pnpm test`, `pnpm lint`, `pnpm build`, plus fresh browser screenshots for laser and bug hit effects.
+- Touch hitbox polish:
+- Replaced the shared circular `target.radius * 1.35` hit test with per-game touch hit areas: larger circles for laser and bug, wider ellipses for fish and feather.
+- Kept `羽毛追追` movement speed unchanged while making its visible feather body much easier to trigger.
+- Re-verified with `pnpm test`, `pnpm lint`, and `pnpm build`.
+- Target-size polish:
+- Increased the visible target radii for all four games while leaving movement speed, trajectories, goals, and timers unchanged.

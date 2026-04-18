@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { GAME_MAP } from './catalog'
-import { createEngineState, getRoundConfig, updateGameState } from './runtime'
+import {
+  createEngineState,
+  getRoundConfig,
+  getTargetHitRadius,
+  updateGameState,
+} from './runtime'
 
 describe('game completion rules', () => {
   it('uses distinct pacing targets for different games', () => {
@@ -40,6 +45,43 @@ describe('game completion rules', () => {
     }
 
     expect(state.hitEffects).toHaveLength(0)
+  })
+
+  it('uses larger cat-friendly touch areas around visible targets', () => {
+    const laser = createEngineState('laser')
+    const laserTarget = laser.targets[0]
+    expect(laserTarget.radius).toBeGreaterThanOrEqual(36)
+    laser.pointerDown(laserTarget.x + laserTarget.radius * 1.7, laserTarget.y)
+    expect(laser.hits).toBe(1)
+    expect(getTargetHitRadius('laser', laserTarget.radius)).toBeGreaterThan(
+      laserTarget.radius * 1.8,
+    )
+
+    const fish = createEngineState('fish')
+    const fishTarget = fish.targets[0]
+    expect(fishTarget.radius).toBeGreaterThanOrEqual(44)
+    fish.pointerDown(
+      fishTarget.x + fishTarget.radius * 1.85,
+      fishTarget.y + fishTarget.radius * 0.45,
+    )
+    expect(fish.hits).toBe(1)
+
+    const feather = createEngineState('feather')
+    const featherTarget = feather.targets[0]
+    expect(featherTarget.radius).toBeGreaterThanOrEqual(46)
+    feather.pointerDown(
+      featherTarget.x + featherTarget.radius * 2.05,
+      featherTarget.y,
+    )
+    expect(feather.hits).toBe(1)
+
+    const bug = createEngineState('bug')
+    updateGameState(bug, GAME_MAP.bug, 900)
+    const visibleBug = bug.targets.find((target) => target.visible)
+    expect(visibleBug).toBeDefined()
+    expect(visibleBug!.radius).toBeGreaterThanOrEqual(30)
+    bug.pointerDown(visibleBug!.x + visibleBug!.radius * 1.75, visibleBug!.y)
+    expect(bug.hits).toBe(1)
   })
 })
 

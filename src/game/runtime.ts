@@ -128,6 +128,50 @@ function randomBetween(min: number, max: number) {
     return Math.random() * (max - min) + min
 }
 
+function isTargetHit(state: EngineState, target: Target, x: number, y: number) {
+    const dx = x - target.x
+    const dy = y - target.y
+
+    if (state.gameId === "fish") {
+        const horizontalRadius = target.radius * 2.25
+        const verticalRadius = target.radius * 1.35
+        return (
+            (dx * dx) / (horizontalRadius * horizontalRadius) +
+                (dy * dy) / (verticalRadius * verticalRadius) <=
+            1
+        )
+    }
+
+    if (state.gameId === "feather") {
+        const horizontalRadius = target.radius * 2.35
+        const verticalRadius = target.radius * 1.7
+        return (
+            (dx * dx) / (horizontalRadius * horizontalRadius) +
+                (dy * dy) / (verticalRadius * verticalRadius) <=
+            1
+        )
+    }
+
+    const radiusScale = state.gameId === "bug" ? 2 : 1.85
+    return Math.hypot(dx, dy) <= target.radius * radiusScale
+}
+
+export function getTargetHitRadius(gameId: GameId, targetRadius: number) {
+    if (gameId === "fish") {
+        return targetRadius * 2.25
+    }
+
+    if (gameId === "feather") {
+        return targetRadius * 2.35
+    }
+
+    if (gameId === "bug") {
+        return targetRadius * 2
+    }
+
+    return targetRadius * 1.85
+}
+
 function createHitEffect(state: EngineState, target: Target): HitEffect {
     return {
         id: state.nextEffectId++,
@@ -165,7 +209,7 @@ function createTarget(
             y: randomBetween(120, height - 120),
             vx: randomBetween(-190, 190),
             vy: randomBetween(-175, 175),
-            radius: 30,
+            radius: 36,
             bornAt: 0,
             wobble: randomBetween(0, Math.PI * 2),
             hue: palette[0],
@@ -192,7 +236,7 @@ function createTarget(
             y: laneY,
             vx: randomBetween(128, 186),
             vy: 0,
-            radius: 38,
+            radius: 44,
             bornAt: 0,
             wobble: randomBetween(0, Math.PI * 2),
             hue: palette[(id - 1) % palette.length],
@@ -216,7 +260,7 @@ function createTarget(
             y: height / 2,
             vx: 0,
             vy: 0,
-            radius: 38,
+            radius: 46,
             bornAt: 0,
             wobble: randomBetween(0, Math.PI * 2),
             hue: palette[0],
@@ -242,7 +286,7 @@ function createTarget(
         y: burrow.y,
         vx: 0,
         vy: 0,
-        radius: 24,
+        radius: 30,
         bornAt: 0,
         wobble: randomBetween(0, Math.PI * 2),
         hue: palette[(id - 1) % palette.length],
@@ -331,9 +375,7 @@ export function createEngineState(gameId: GameId): EngineState {
                     return false
                 }
 
-                const dx = x - target.x
-                const dy = y - target.y
-                return Math.hypot(dx, dy) <= target.radius * 1.35
+                return isTargetHit(state, target, x, y)
             })
 
             if (!hitTarget) {

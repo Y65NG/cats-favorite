@@ -12,6 +12,7 @@ import {
   createEngineState,
   drawGameFrame,
   getRoundConfig,
+  getTargetHitRadius,
   updateGameState,
 } from "../game/runtime"
 import { gameAudio } from "../game/audio"
@@ -97,6 +98,7 @@ export function MiniGameCanvas({
             x: Math.round(target.x),
             y: Math.round(target.y),
             r: Math.round(target.radius),
+            hitR: Math.round(getTargetHitRadius(definition.id, target.radius)),
           })),
       })
 
