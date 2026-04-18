@@ -49,7 +49,7 @@ export function MiniGameCanvas({
       return
     }
 
-    drawGameFrame(canvasRef.current, engineRef.current, definition)
+    drawGameFrame(canvasRef.current, engineRef.current)
     setHud({
       hits: engineRef.current.hits,
       misses: engineRef.current.misses,
@@ -57,7 +57,7 @@ export function MiniGameCanvas({
       hitGoal: engineRef.current.hitGoal,
       timeLeftMs: engineRef.current.timeLeftMs,
     })
-  }, [definition])
+  }, [])
 
   const advance = useCallback(
     (deltaMs: number) => {
