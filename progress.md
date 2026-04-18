@@ -47,3 +47,5 @@ Original prompt: Im building a interactive web game for cats to play, so it has 
 - Re-verified with `pnpm test`, `pnpm lint`, and `pnpm build`.
 - Target-size polish:
 - Increased the visible target radii for all four games while leaving movement speed, trajectories, goals, and timers unchanged.
+- Cat-paw hitbox polish:
+- Increased every mini-game's touch hitbox to be very forgiving for broad cat-paw taps, especially the third feather game.

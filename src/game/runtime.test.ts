@@ -51,18 +51,18 @@ describe('game completion rules', () => {
     const laser = createEngineState('laser')
     const laserTarget = laser.targets[0]
     expect(laserTarget.radius).toBeGreaterThanOrEqual(36)
-    laser.pointerDown(laserTarget.x + laserTarget.radius * 1.7, laserTarget.y)
+    laser.pointerDown(laserTarget.x + laserTarget.radius * 2.9, laserTarget.y)
     expect(laser.hits).toBe(1)
     expect(getTargetHitRadius('laser', laserTarget.radius)).toBeGreaterThan(
-      laserTarget.radius * 1.8,
+      laserTarget.radius * 3,
     )
 
     const fish = createEngineState('fish')
     const fishTarget = fish.targets[0]
     expect(fishTarget.radius).toBeGreaterThanOrEqual(44)
     fish.pointerDown(
-      fishTarget.x + fishTarget.radius * 1.85,
-      fishTarget.y + fishTarget.radius * 0.45,
+      fishTarget.x + fishTarget.radius * 3,
+      fishTarget.y + fishTarget.radius * 0.8,
     )
     expect(fish.hits).toBe(1)
 
@@ -70,8 +70,8 @@ describe('game completion rules', () => {
     const featherTarget = feather.targets[0]
     expect(featherTarget.radius).toBeGreaterThanOrEqual(46)
     feather.pointerDown(
-      featherTarget.x + featherTarget.radius * 2.05,
-      featherTarget.y,
+      featherTarget.x + featherTarget.radius * 3.3,
+      featherTarget.y + featherTarget.radius * 0.65,
     )
     expect(feather.hits).toBe(1)
 
@@ -80,7 +80,7 @@ describe('game completion rules', () => {
     const visibleBug = bug.targets.find((target) => target.visible)
     expect(visibleBug).toBeDefined()
     expect(visibleBug!.radius).toBeGreaterThanOrEqual(30)
-    bug.pointerDown(visibleBug!.x + visibleBug!.radius * 1.75, visibleBug!.y)
+    bug.pointerDown(visibleBug!.x + visibleBug!.radius * 3, visibleBug!.y)
     expect(bug.hits).toBe(1)
   })
 })

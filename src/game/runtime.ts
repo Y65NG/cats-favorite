@@ -128,13 +128,24 @@ function randomBetween(min: number, max: number) {
     return Math.random() * (max - min) + min
 }
 
+const TOUCH_HITBOX_SCALE: Record<
+    GameId,
+    { horizontal: number; vertical: number }
+> = {
+    laser: { horizontal: 3.2, vertical: 3.2 },
+    fish: { horizontal: 3.4, vertical: 2.3 },
+    feather: { horizontal: 3.8, vertical: 2.8 },
+    bug: { horizontal: 3.4, vertical: 3.4 },
+}
+
 function isTargetHit(state: EngineState, target: Target, x: number, y: number) {
     const dx = x - target.x
     const dy = y - target.y
+    const { horizontal, vertical } = TOUCH_HITBOX_SCALE[state.gameId]
 
-    if (state.gameId === "fish") {
-        const horizontalRadius = target.radius * 2.25
-        const verticalRadius = target.radius * 1.35
+    if (horizontal !== vertical) {
+        const horizontalRadius = target.radius * horizontal
+        const verticalRadius = target.radius * vertical
         return (
             (dx * dx) / (horizontalRadius * horizontalRadius) +
                 (dy * dy) / (verticalRadius * verticalRadius) <=
@@ -142,34 +153,11 @@ function isTargetHit(state: EngineState, target: Target, x: number, y: number) {
         )
     }
 
-    if (state.gameId === "feather") {
-        const horizontalRadius = target.radius * 2.35
-        const verticalRadius = target.radius * 1.7
-        return (
-            (dx * dx) / (horizontalRadius * horizontalRadius) +
-                (dy * dy) / (verticalRadius * verticalRadius) <=
-            1
-        )
-    }
-
-    const radiusScale = state.gameId === "bug" ? 2 : 1.85
-    return Math.hypot(dx, dy) <= target.radius * radiusScale
+    return Math.hypot(dx, dy) <= target.radius * horizontal
 }
 
 export function getTargetHitRadius(gameId: GameId, targetRadius: number) {
-    if (gameId === "fish") {
-        return targetRadius * 2.25
-    }
-
-    if (gameId === "feather") {
-        return targetRadius * 2.35
-    }
-
-    if (gameId === "bug") {
-        return targetRadius * 2
-    }
-
-    return targetRadius * 1.85
+    return targetRadius * TOUCH_HITBOX_SCALE[gameId].horizontal
 }
 
 function createHitEffect(state: EngineState, target: Target): HitEffect {
